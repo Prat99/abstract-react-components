@@ -4,28 +4,93 @@ import { withFormsy } from 'formsy-react';
 class FormsyElement extends Component {
     constructor(props) {
         super(props);
-      }
+        console.log('props in formsyElements', props);
+    }
 
-    changeValue = (event) =>{
+    changeValue = (event) => {
         // setValue() will set the value of the component, which in
         // turn will validate it and the rest of the form
         // Important: Don't skip this step. This pattern is required
         // for Formsy to work.
-        this.props.setValue(event.currentTarget.value);
+        this.props.setValue(event.currentTarget[this.props.element === 'checkbox' ? 'checked' : 'value']);
     }
+
     render() {
-        const errorMessage = this.props.getErrorMessage();
-        return (
-            <div>
-                <input
-                onChange={this.changeValue}
-                type="text"
-                value={this.props.getValue() || ''}
+        const elementType = this.props.element;
+        let domElement = null;
+        switch (elementType) {
+            case 'input':
+                domElement = <input
+                    className='input'
+                    onChange={this.changeValue}
+                    type="text"
+                    value={this.props.getValue() || ''}
                 />
+                break;
+            case 'select':
+                domElement = <div className='select'>
+                    <select onChange={this.changeValue} value={this.props.getValue() || ''}>
+                        <option>Select dropdown</option>
+                        <option>Node</option>
+                        <option>React</option>
+                        <option>Angular</option>
+                    </select>
+                </div>
+                break;
+            case 'textarea':
+                domElement = <textarea className="textarea"
+                    placeholder="Textarea"
+                    onChange={this.changeValue}
+                    value={this.props.getValue() || ''}></textarea>
+                break;
+            case 'checkbox':
+                domElement = <div>
+                    <input type="checkbox"
+                        onChange={this.changeValue}
+                        value={this.props.getValue() || ''} />&nbsp;
+                    I agree to the < a href="#" > terms and conditions</a >
+                </div>
+                break;
+            case 'radio':
+                domElement = <div>
+                    <label className="radio">
+                        <input type="radio" name="question"
+                            value={ this.props.gender.key1 }
+                            onChange={this.changeValue}
+                             />&nbsp;
+                            {this.props.gender.key1}
+                    </label>
+                    <label className="radio">
+                        <input type="radio"
+                            name="question"
+                            onChange={this.changeValue}
+                            value={this.props.gender.key2} />&nbsp;
+                            {this.props.gender.key2}
+                    </label>
+                </div>
+                break;
+            default:
+                break;
+        }
+        const errorMessage = this.props.getErrorMessage();
+        const req = this.props.isRequired && this.props.label ? '*' : null;
+        const label = this.props.label ? <label className='label'>
+            {this.props.label}
+            <span style={{ color: 'red' }}>{req}</span>
+        </label> : null
+        return (
+            <div className='field'>
+                {label}
+                <div className='control'>
+                    {domElement}
+                </div>
                 <span>{errorMessage}</span>
             </div>
         )
     }
 }
 
-export default withFormsy(FormsyElement)
+export default withFormsy(FormsyElement);
+
+// all formsy elements should be wrapped with withFormsy HOC 
+// properties and methods provided by the withFormsy
