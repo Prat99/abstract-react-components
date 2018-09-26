@@ -12,10 +12,15 @@ class FormsyElement extends Component {
         // turn will validate it and the rest of the form
         // Important: Don't skip this step. This pattern is required
         // for Formsy to work.
+        //if(event.target.value === 'Front End')
+        if(this.props.controlFunc) {
+            this.props.controlFunc(event);
+        }
         this.props.setValue(event.currentTarget[this.props.element === 'checkbox' ? 'checked' : 'value']);
     }
 
     render() {
+        var face = this.props.isValid() ? ':-)' : ':-(';
         const elementType = this.props.element;
         let domElement = null;
         switch (elementType) {
@@ -27,13 +32,23 @@ class FormsyElement extends Component {
                     value={this.props.getValue() || ''}
                 />
                 break;
+            case 'password':
+                domElement = <input
+                    className='input'
+                    onChange={this.changeValue}
+                    type="password"
+                    value={this.props.getValue() || ''}
+                />
+                break;
             case 'select':
                 domElement = <div className='select'>
                     <select onChange={this.changeValue} value={this.props.getValue() || ''}>
                         <option>Select dropdown</option>
-                        <option>Node</option>
-                        <option>React</option>
-                        <option>Angular</option>
+                        {this.props.options ? this.props.options.map((opt) => {
+                           return (
+                               <option key={opt} value={opt}>{opt}</option>
+                           )
+                        }) : null}
                     </select>
                 </div>
                 break;
@@ -47,7 +62,9 @@ class FormsyElement extends Component {
                 domElement = <div>
                     <input type="checkbox"
                         onChange={this.changeValue}
-                        value={this.props.getValue() || ''} />&nbsp;
+                        value={this.props.getValue()}
+                        checked={this.props.getValue() || ''}
+                    />&nbsp;
                     I agree to the < a href="#" > terms and conditions</a >
                 </div>
                 break;
@@ -55,16 +72,17 @@ class FormsyElement extends Component {
                 domElement = <div>
                     <label className="radio">
                         <input type="radio" name="question"
-                            value={ this.props.gender.key1 }
+                            value={this.props.gender.key1}
                             onChange={this.changeValue}
-                             />&nbsp;
+                        />&nbsp;
                             {this.props.gender.key1}
                     </label>
                     <label className="radio">
                         <input type="radio"
                             name="question"
                             onChange={this.changeValue}
-                            value={this.props.gender.key2} />&nbsp;
+                            value={this.props.gender.key2}
+                        />&nbsp;
                             {this.props.gender.key2}
                     </label>
                 </div>

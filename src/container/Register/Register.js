@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import Form from '../../components/Form/Form';
 import Formsy from 'formsy-react';
+import './Register.css';
 import FormsyElement from '../FormsyElement/FormsyElement';
 
 
 export default class Register extends Component {
   constructor(props) {
     super(props);
-    this.state = { canSubmit: false };
+    this.state = { canSubmit: false, isChecked: false, selectOption: null };
   }
   // service worker API example to cache the pages for offline loading
   componentWillMount() {
@@ -40,25 +41,84 @@ export default class Register extends Component {
     // console.log('reset', reset);
     // console.log('invalidate object', inv);
     console.log('final submit', model);
-   // reset();
+    // reset();
   }
 
   notifiyFormError = (model) => {
     console.log('notifyFormError', model);
   }
 
+  selectChangeHandler = (e) => {
+    console.log('selectChanngeHandler', e.target.value);
+    const { value } = e.target;
+    switch (value) {
+      case 'Frontend':
+        this.setState({
+          selectOption: value
+        });
+        break;
+      case 'Backend':
+        this.setState({
+          selectOption: value
+        });
+        break;
+      case 'System Admin':
+        this.setState({
+          selectOption: value
+        });
+        break;
+
+      default:
+        break;
+    }
+  }
+
   resetForm = () => {
-    console.log('reset form');
-    this.refs.form.reset();
+    console.log('reset form', this.refs.form);
+    this.setState({ isChecked: false })
+    this.refs.form.reset({ terms: false, gender: 'Male' });
+
   }
 
 
   render() {
+    let subSelect = null;
+    switch (this.state.selectOption) {
+      case 'Frontend':
+        subSelect = <FormsyElement
+          name="ftechnology"
+          label='Choose your technology'
+          required
+          element='select'
+          options={['Angular', 'Reactjs', 'Vuejs']}
+        />
+        break;
+      case 'Backend':
+        subSelect = <FormsyElement
+          name="btechnology"
+          label='Choose your technology'
+          required
+          element='select'
+          options={['Node', 'Java', 'Python']}
+        />
+        break;
+      case 'System Admin':
+        subSelect = <FormsyElement
+          name="stechnology"
+          label='Choose your technology'
+          required
+          element='select'
+          options={['AWS', 'Azure', 'Google Cloud']}
+        />
+        break;
+      default:
+        break;
+    }
     return (
       <div className='columns'>
         <div className='column'></div>
         <div className='column'>
-          <Formsy
+          <Formsy className='Register'
             onValidSubmit={this.submit} // when form is submitted with the valid state, submit handler
             // will be called submit(formData, reset, invalidateTheForm) 
             ref='form'
@@ -96,21 +156,44 @@ export default class Register extends Component {
               element='input'
             />
             <FormsyElement
-              name="technology"
-              label='Technology'
+              name="password"
+              label='Password'
+              validations={{ minLength: 6 }}
+              validationErrors={{
+                minLength: 'min password length should be 6'
+              }}
+              required
+              element='password'
+            />
+            <FormsyElement
+              name="cpassword"
+              label='Confirm Password'
+              validations="equalsField:password"
+              validationErrors={{
+                minLength: 'min password length should be 6',
+                equalsField: 'password and confirm password should match'
+              }}
+              required
+              element='password'
+            />
+            <FormsyElement
+              name="Profile"
+              label='Choose your profile'
               required
               element='select'
+              controlFunc={this.selectChangeHandler}
+              options={['Frontend', 'Backend', 'System Admin']}
             />
+            {subSelect}
             <FormsyElement
               name="message"
               label='Message'
-              required
               element='textarea'
             />
             <FormsyElement
               name="terms"
               element='checkbox'
-              required
+              required='isFalse' // define your required config, for checkbox define isFalse.
             />
             <FormsyElement
               name="gender"
