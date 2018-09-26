@@ -4,7 +4,7 @@ import { withFormsy } from 'formsy-react';
 class FormsyElement extends Component {
     constructor(props) {
         super(props);
-        console.log('props in formsyElements', props);
+       // console.log('props in formsyElements', props);
     }
 
     changeValue = (event) => {
@@ -13,10 +13,12 @@ class FormsyElement extends Component {
         // Important: Don't skip this step. This pattern is required
         // for Formsy to work.
         //if(event.target.value === 'Front End')
-        if(this.props.controlFunc) {
+        console.log('current element', this.props.element);
+        console.log('event in changevalue', event.currentTarget[this.props.element === 'checkbox' || 'radio' ? 'checked' : 'value']);
+        if (this.props.controlFunc) {
             this.props.controlFunc(event);
         }
-        this.props.setValue(event.currentTarget[this.props.element === 'checkbox' ? 'checked' : 'value']);
+        this.props.setValue(event.currentTarget[this.props.element === 'checkbox' || 'radio' ? 'checked' : 'value']);
     }
 
     render() {
@@ -45,9 +47,9 @@ class FormsyElement extends Component {
                     <select onChange={this.changeValue} value={this.props.getValue() || ''}>
                         <option>Select dropdown</option>
                         {this.props.options ? this.props.options.map((opt) => {
-                           return (
-                               <option key={opt} value={opt}>{opt}</option>
-                           )
+                            return (
+                                <option key={opt} value={opt}>{opt}</option>
+                            )
                         }) : null}
                     </select>
                 </div>
@@ -69,23 +71,18 @@ class FormsyElement extends Component {
                 </div>
                 break;
             case 'radio':
-                domElement = <div>
-                    <label className="radio">
-                        <input type="radio" name="question"
-                            value={this.props.gender.key1}
-                            onChange={this.changeValue}
-                        />&nbsp;
-                            {this.props.gender.key1}
-                    </label>
-                    <label className="radio">
-                        <input type="radio"
-                            name="question"
-                            onChange={this.changeValue}
-                            value={this.props.gender.key2}
-                        />&nbsp;
-                            {this.props.gender.key2}
-                    </label>
-                </div>
+                domElement = this.props.options.map((opt) => {
+                    return (
+                        <label className="radio" key={opt + 1}>
+                            <input type="radio" name={this.props.name}
+                                value={this.props.getValue() || ''}
+                                onChange={this.changeValue}
+                                checked={this.props.selectedOptions.indexOf(opt) > -1 }
+                            />
+                            {opt}
+                        </label>
+                    )
+                })
                 break;
             default:
                 break;
@@ -102,7 +99,7 @@ class FormsyElement extends Component {
                 <div className='control'>
                     {domElement}
                 </div>
-                <span>{errorMessage}</span>
+                <span style={{ color: 'red' }}>{errorMessage}</span>
             </div>
         )
     }

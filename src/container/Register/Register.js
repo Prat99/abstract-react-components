@@ -4,7 +4,18 @@ import Formsy from 'formsy-react';
 import './Register.css';
 import FormsyElement from '../FormsyElement/FormsyElement';
 
-
+const userData = {
+  profile: "Backend",
+  btechnology: "Node",
+  cpassword: "foobar",
+  email: "foo@test.com",
+  gender: "Male",
+  message: "I am a node developer with 3 years of experience.",
+  name: "Foo",
+  password: "foobar",
+  terms: true,
+  username: "Foo_36"
+}
 export default class Register extends Component {
   constructor(props) {
     super(props);
@@ -80,7 +91,6 @@ export default class Register extends Component {
 
   }
 
-
   render() {
     let subSelect = null;
     switch (this.state.selectOption) {
@@ -124,13 +134,15 @@ export default class Register extends Component {
             ref='form'
             onValid={this.enableButton} // 
             onInvalid={this.disableButton}
-            onInvalidSubmit={this.notifyFormError}>
+            onInvalidSubmit={this.notifyFormError}
+            >
             <FormsyElement
               name="name"
               label='Name'
               validations="isWords"
               validationError="only words Name allowed"
               required
+              value={userData.name}
               element='input'
             />
             <FormsyElement
@@ -142,6 +154,7 @@ export default class Register extends Component {
                 minLength: 'minimum 4 character is required'
               }}
               required
+              value={userData.username}
               element='input'
             />
             <FormsyElement
@@ -152,6 +165,7 @@ export default class Register extends Component {
                 isEmail: 'not a valid email',
                 maxLength: 'max length is 20 words'
               }}
+              value={userData.email}
               required
               element='input'
             />
@@ -162,6 +176,7 @@ export default class Register extends Component {
               validationErrors={{
                 minLength: 'min password length should be 6'
               }}
+              value={userData.password}
               required
               element='password'
             />
@@ -174,14 +189,16 @@ export default class Register extends Component {
                 equalsField: 'password and confirm password should match'
               }}
               required
+              value={userData.cpassword}
               element='password'
             />
             <FormsyElement
-              name="Profile"
+              name="profile"
               label='Choose your profile'
               required
               element='select'
               controlFunc={this.selectChangeHandler}
+              value={userData.profile}
               options={['Frontend', 'Backend', 'System Admin']}
             />
             {subSelect}
@@ -189,18 +206,22 @@ export default class Register extends Component {
               name="message"
               label='Message'
               element='textarea'
+              value={userData.message}
             />
             <FormsyElement
               name="terms"
               element='checkbox'
               required='isFalse' // define your required config, for checkbox define isFalse.
+              value={userData.terms}
             />
             <FormsyElement
               name="gender"
               label=''
               required
               element='radio'
-              gender={{ key1: 'Male', key2: 'Female' }}
+              options={['Male', 'Female']}
+              selectedOptions = {['Female']}
+              // value={userData.gender}
             />
             <div className="field is-grouped">
               <div className="control">
