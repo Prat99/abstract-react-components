@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import Form from '../../components/Form/Form';
-import Formsy from 'formsy-react';
 import './Register.css';
+import Formsy from 'formsy-react';
 import FormsyElement from '../FormsyElement/FormsyElement';
 
 const userData = {

@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
 import { withFormsy } from 'formsy-react';
+import bulmaCalendar from 'bulma-calendar';
 
 class FormsyElement extends Component {
     constructor(props) {
         super(props);
+        // Initialize all input of date type.
+        const calendars = bulmaCalendar.attach('[type="date"]', {});
+        // Loop on each calendar initialized
+        calendars.forEach(calendar => {
+            // Add listener to date:selected event
+            calendar.on('date:selected', date => {
+                console.log(date);
+            });
+        });
        // console.log('props in formsyElements', props);
     }
 
@@ -12,13 +22,11 @@ class FormsyElement extends Component {
         // turn will validate it and the rest of the form
         // Important: Don't skip this step. This pattern is required
         // for Formsy to work.
-        //if(event.target.value === 'Front End')
-        console.log('current element', this.props.element);
-        console.log('event in changevalue', event.currentTarget[this.props.element === 'checkbox' || 'radio' ? 'checked' : 'value']);
+        console.log('change Value', event);
         if (this.props.controlFunc) {
             this.props.controlFunc(event);
         }
-        this.props.setValue(event.currentTarget[this.props.element === 'checkbox' || 'radio' ? 'checked' : 'value']);
+        this.props.setValue(event.currentTarget[this.props.element === 'checkbox' ? 'checked' : 'value']);
     }
 
     render() {
@@ -39,6 +47,13 @@ class FormsyElement extends Component {
                     className='input'
                     onChange={this.changeValue}
                     type="password"
+                    value={this.props.getValue() || ''}
+                />
+                break;
+            case 'calendar':
+                domElement = <input
+                    onChange={this.changeValue}
+                    type="date"
                     value={this.props.getValue() || ''}
                 />
                 break;

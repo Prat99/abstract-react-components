@@ -71,6 +71,9 @@ export default class Employees extends Component {
   registerBtnHandler = () => {
     this.props.history.push('/register');
   }
+  authBtnHandler = () => {
+    this.props.history.push('auth');
+  }
   render() {
     return (
       <div className='Employees'>
@@ -81,7 +84,9 @@ export default class Employees extends Component {
                name={this.state.name}
                job={this.state.job}></Form>
           <hr/>     
-          <button className="button is-primary" onClick={this.registerBtnHandler}>Register</button>     
+          <button className="button is-primary" onClick={this.registerBtnHandler}>Register</button>   
+          <div className='is-offset-4'></div>  
+        <button className="button is-success" onClick={this.authBtnHandler}>Auth</button>     
       </div>
     )
   }

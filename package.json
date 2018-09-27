@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "bulma": "^0.7.1",
+    "bulma-calendar": "^5.0.1",
     "formsy-react": "^1.1.4",
     "formsy-react-components": "^1.0.0",
     "react": "^16.5.1",
