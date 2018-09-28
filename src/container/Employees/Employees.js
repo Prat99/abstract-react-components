@@ -84,9 +84,9 @@ export default class Employees extends Component {
                name={this.state.name}
                job={this.state.job}></Form>
           <hr/>     
-          <button className="button is-primary" onClick={this.registerBtnHandler}>Register</button>   
-          <div className='is-offset-4'></div>  
-        <button className="button is-success" onClick={this.authBtnHandler}>Auth</button>     
+          <button className="btn btn-primary" onClick={this.registerBtnHandler}>Register</button>   
+          <div className='col-md-4 col-lg-4'></div>  
+        <button className="btn btn-success" onClick={this.authBtnHandler}>Auth</button>     
       </div>
     )
   }

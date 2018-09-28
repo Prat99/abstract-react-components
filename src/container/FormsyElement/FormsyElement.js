@@ -1,20 +1,10 @@
 import React, { Component } from 'react';
 import { withFormsy } from 'formsy-react';
-import bulmaCalendar from 'bulma-calendar';
-
+var DatePicker = require("react-16-bootstrap-date-picker");
 class FormsyElement extends Component {
     constructor(props) {
         super(props);
-        // Initialize all input of date type.
-        const calendars = bulmaCalendar.attach('[type="date"]', {});
-        // Loop on each calendar initialized
-        calendars.forEach(calendar => {
-            // Add listener to date:selected event
-            calendar.on('date:selected', date => {
-                console.log(date);
-            });
-        });
-       // console.log('props in formsyElements', props);
+        // console.log('props in formsyElements', props);
     }
 
     changeValue = (event) => {
@@ -36,7 +26,7 @@ class FormsyElement extends Component {
         switch (elementType) {
             case 'input':
                 domElement = <input
-                    className='input'
+                    className='form-control'
                     onChange={this.changeValue}
                     type="text"
                     value={this.props.getValue() || ''}
@@ -44,7 +34,7 @@ class FormsyElement extends Component {
                 break;
             case 'password':
                 domElement = <input
-                    className='input'
+                    className='form-control'
                     onChange={this.changeValue}
                     type="password"
                     value={this.props.getValue() || ''}
@@ -56,10 +46,11 @@ class FormsyElement extends Component {
                 //     type="date"
                 //     value={this.props.getValue() || ''}
                 // />
-                domElement = <input onChange={this.changeValue} value={this.props.getValue() || ''} type="date" data-display-mode="inline" data-is-range="true" data-close-on-select="false" />
+                domElement = <DatePicker id="example-datepicker" value={this.props.getValue() || new Date().toISOString()}
+                    onChange={this.changeValue} />
                 break;
             case 'select':
-                domElement = <div className='select'>
+                domElement = <div className='form-control'>
                     <select onChange={this.changeValue} value={this.props.getValue() || ''}>
                         <option>Select dropdown</option>
                         {this.props.options ? this.props.options.map((opt) => {
@@ -71,32 +62,36 @@ class FormsyElement extends Component {
                 </div>
                 break;
             case 'textarea':
-                domElement = <textarea className="textarea"
+                domElement = <textarea className='form-control'
                     placeholder="Textarea"
                     onChange={this.changeValue}
                     value={this.props.getValue() || ''}></textarea>
                 break;
             case 'checkbox':
-                domElement = <div>
+                domElement = <div className='form-check'>
                     <input type="checkbox"
+                        className='form-check-input'
                         onChange={this.changeValue}
                         value={this.props.getValue()}
                         checked={this.props.getValue() || ''}
-                    />&nbsp;
+                    />
                     I agree to the < a href="#" > terms and conditions</a >
                 </div>
                 break;
             case 'radio':
                 domElement = this.props.options.map((opt) => {
                     return (
-                        <label className="radio" key={opt + 1}>
-                            <input type="radio" name={this.props.name}
-                                value={this.props.getValue() || ''}
-                                onChange={this.changeValue}
-                                checked={this.props.selectedOptions.indexOf(opt) > -1 }
-                            />
-                            {opt}
-                        </label>
+                        <div className='form-check-inline'>
+                            <label className="form-check-label" key={opt + 1}>
+                                <input type="radio" name={this.props.name}
+                                    value={this.props.getValue() || ''}
+                                    onChange={this.changeValue}
+                                    className='form-check-input'
+                                    checked={this.props.selectedOptions.indexOf(opt) > -1}
+                                />
+                                {opt}
+                            </label>
+                        </div>
                     )
                 })
                 break;
@@ -105,16 +100,14 @@ class FormsyElement extends Component {
         }
         const errorMessage = this.props.getErrorMessage();
         const req = this.props.isRequired && this.props.label ? '*' : null;
-        const label = this.props.label ? <label className='label'>
+        const label = this.props.label ? <label>
             {this.props.label}
             <span style={{ color: 'red' }}>{req}</span>
         </label> : null
         return (
-            <div className='field'>
+            <div className='form-group'>
                 {label}
-                <div className='control'>
-                    {domElement}
-                </div>
+                {domElement}
                 <span style={{ color: 'red' }}>{errorMessage}</span>
             </div>
         )

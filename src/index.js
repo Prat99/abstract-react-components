@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import 'bulma/css/bulma.css';
-import 'bulma-calendar/dist/js/bulma-calendar';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom'
 import registerServiceWorker from './registerServiceWorker';
 

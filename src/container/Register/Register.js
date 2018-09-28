@@ -125,9 +125,9 @@ export default class Register extends Component {
         break;
     }
     return (
-      <div className='columns'>
-        <div className='column'></div>
-        <div className='column'>
+      <div className='row'>
+        <div className='col-md-4 col-lg-4'></div>
+        <div className='column-md-4 col-lg-4'>
           <Formsy className='Register'
             onValidSubmit={this.submit} // when form is submitted with the valid state, submit handler
             // will be called submit(formData, reset, invalidateTheForm) 
@@ -223,17 +223,17 @@ export default class Register extends Component {
               selectedOptions = {['Female']}
               // value={userData.gender}
             />
-            <div className="field is-grouped">
-              <div className="control">
-                <button className="button is-link" disabled={!this.state.canSubmit}>Submit</button>
+            <div className="">
+              <div className="">
+                <button className="btn btn-success" disabled={!this.state.canSubmit}>Submit</button>
               </div>
               <div className="control">
-                <button className="button is-text" onClick={this.resetForm}>Cancel</button>
+                <button className="btn btn-danger" onClick={this.resetForm}>Cancel</button>
               </div>
             </div>
           </Formsy>
         </div>
-        <div className='column'></div>
+        <div className='col-md-4 col-lg-4'></div>
       </div>
     )
   }

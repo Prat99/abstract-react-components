@@ -159,7 +159,7 @@ class Auth extends Component {
                     className='Register'
                     onValidSubmit={this.submit}
                     ref='form'
-                    onValid={this.enableButton} // 
+                    onValid={this.enableButton}
                     onInvalid={this.disableButton}
                     onInvalidSubmit={this.notifyFormError}>
                     {authForm}
