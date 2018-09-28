@@ -51,11 +51,12 @@ class FormsyElement extends Component {
                 />
                 break;
             case 'calendar':
-                domElement = <input
-                    onChange={this.changeValue}
-                    type="date"
-                    value={this.props.getValue() || ''}
-                />
+                // domElement = <input
+                //     onChange={this.changeValue}
+                //     type="date"
+                //     value={this.props.getValue() || ''}
+                // />
+                domElement = <input onChange={this.changeValue} value={this.props.getValue() || ''} type="date" data-display-mode="inline" data-is-range="true" data-close-on-select="false" />
                 break;
             case 'select':
                 domElement = <div className='select'>
