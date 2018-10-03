@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import { withFormsy } from 'formsy-react';
-var DatePicker = require("react-16-bootstrap-date-picker");
+// var DatePicker = require("react-16-bootstrap-date-picker");
+import DayPicker from 'react-day-picker';
+import DayPickerInput from 'react-day-picker/DayPickerInput';
+import 'react-day-picker/lib/style.css';
 class FormsyElement extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            selectedDay: ''
+        }
         // console.log('props in formsyElements', props);
     }
 
@@ -12,11 +18,25 @@ class FormsyElement extends Component {
         // turn will validate it and the rest of the form
         // Important: Don't skip this step. This pattern is required
         // for Formsy to work.
-        console.log('change Value', event);
-        if (this.props.controlFunc) {
-            this.props.controlFunc(event);
+        //    console.log('change Value ====> ',  event.currentTarget.value,   this.props.element);
+        //     if (this.props.controlFunc) {
+        //         this.props.controlFunc(event);
+        //     }
+        if (this.props.element === 'calendar') {
+            this.props.setValue(event);
+        } else {
+            this.props.setValue(event.currentTarget[this.props.element === 'checkbox' ? 'checked' : 'value']);
         }
-        this.props.setValue(event.currentTarget[this.props.element === 'checkbox' ? 'checked' : 'value']);
+        // if(this.props.element === 'calendar') {
+        //     this.props.setValue(event);
+        // } else {
+        //     this.props.setValue(event.currentTarget[this.props.element === 'checkbox' ? 'checked' : 'value']);    
+        // }
+        // this.props.setValue(event.currentTarget[this.props.element === 'checkbox' ? 'checked' : 'value']);
+
+    }
+    handleDayClick = (day) => {
+        this.setState({ selectedDay: day });
     }
 
     render() {
@@ -28,7 +48,15 @@ class FormsyElement extends Component {
                 domElement = <input
                     className='form-control'
                     onChange={this.changeValue}
-                    type="text"
+                    type={this.props.type}
+                    value={this.props.getValue() || ''}
+                />
+                break;
+            case 'email':
+                domElement = <input
+                    className='form-control'
+                    onChange={this.changeValue}
+                    type={this.props.type}
                     value={this.props.getValue() || ''}
                 />
                 break;
@@ -41,13 +69,15 @@ class FormsyElement extends Component {
                 />
                 break;
             case 'calendar':
-                // domElement = <input
-                //     onChange={this.changeValue}
-                //     type="date"
-                //     value={this.props.getValue() || ''}
-                // />
-                domElement = <DatePicker id="example-datepicker" value={this.props.getValue() || new Date().toISOString()}
-                    onChange={this.changeValue} />
+                domElement = <input
+                    onChange={this.changeValue}
+                    type="date"
+                    value={this.props.getValue() || ''}
+                />
+                // domElement = <DatePicker id="example-datepicker" value={this.props.getValue() || new Date().toISOString()}
+                //     onChange={this.changeValue} />
+                domElement = <DayPickerInput onDayChange={day => this.changeValue(day)}
+                />
                 break;
             case 'select':
                 domElement = <div className='form-control'>
@@ -79,15 +109,17 @@ class FormsyElement extends Component {
                 </div>
                 break;
             case 'radio':
-                domElement = this.props.options.map((opt) => {
+                domElement = this.props.options.map((opt, i) => {
                     return (
-                        <div className='form-check-inline'>
-                            <label className="form-check-label" key={opt + 1}>
-                                <input type="radio" name={this.props.name}
-                                    value={this.props.getValue() || ''}
-                                    onChange={this.changeValue}
+                        <div className='form-check-inline' key={i}>
+                            <label className="form-check-label" >
+                                <input 
+                                    type="radio"
+                                    name={this.props.name}
+                                    value = {opt}
+                                    onChange={(opt) => this.changeValue(opt)}
                                     className='form-check-input'
-                                    checked={this.props.selectedOptions.indexOf(opt) > -1}
+                                    // checked={this.props.selectedOptions.indexOf(opt) > -1}
                                 />
                                 {opt}
                             </label>

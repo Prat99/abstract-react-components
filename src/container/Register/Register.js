@@ -160,6 +160,7 @@ export default class Register extends Component {
             <FormsyElement
               name="email"
               label='Email'
+              type='email'
               validations={{ isEmail: true, maxLength: 20 }}
               validationErrors={{
                 isEmail: 'not a valid email',
@@ -167,7 +168,7 @@ export default class Register extends Component {
               }}
               value={userData.email}
               required
-              element='input'
+              element='email'
             />
             <FormsyElement
               name="password"

@@ -16,11 +16,11 @@ class Auth extends Component {
                             label: 'Email',
                             validations: 'isEmail',
                             validationError: 'Email is not valid',
-                            required:true
+                            required: true
                         }
                     },
                     password: {
-                        elementType: 'input',
+                        elementType: 'password',
                         elementConfig: {
                             name: 'password',
                             type: 'password',
@@ -36,17 +36,24 @@ class Auth extends Component {
                             name: 'name',
                             type: 'text',
                             label: 'Name',
+                            validations: {isWords: true},
+                            validationErrors: {isWords: 'Not a valid name'},
                             required: true
                         }
                     },
                     email: {
-                        elementType: 'input',
+                        elementType: 'email',
                         elementConfig: {
                             name: 'email',
-                            type: 'text',
+                            type: 'email',
                             label: 'Email',
-                            validations: 'isEmail',
-                            validationError: 'Email is not valid',
+                            // validations: 'isEmail',
+                            // validationErrors: 'Email is not valid',
+                            validations:{ isEmail: true, maxLength: 20 },
+                            validationErrors : {
+                                isEmail: 'not a valid email',
+                                maxLength: 'max length is 20 words'
+                            },
                             required: true
                         }
                     },
@@ -64,13 +71,14 @@ class Auth extends Component {
                         elementConfig: {
                             name: 'gender',
                             label: '',
-                            options: ['Male', 'Female'],
+                            // options: [{name: 'male', value: 'Male'}, {name: 'female', value: 'Female'}],
+                            options: ['male', 'female'],
                             required: true,
                             selectedOptions: []
                         }
                     },
                     password: {
-                        elementType: 'input',
+                        elementType: 'password',
                         elementConfig: {
                             name: 'password',
                             type: 'password',
@@ -79,7 +87,7 @@ class Auth extends Component {
                         }
                     },
                     cpassword: {
-                        elementType: 'input',
+                        elementType: 'password',
                         elementConfig: {
                             type: 'password',
                             name: 'cpassword',
@@ -100,7 +108,7 @@ class Auth extends Component {
                             required: 'isFalse'
                         }
                     },
-                    
+
                 }
             },
             canSubmit: false
@@ -129,19 +137,26 @@ class Auth extends Component {
         console.log('final submit', model);
         // reset();
     }
+
+    resetForm = () => {
+        console.log('reset form', this.refs.form);
+        this.setState({ canSubmit: false })
+        this.refs.form.reset({ terms: false, gender: 'Male' });
+
+    }
     render() {
         let authForm = [];
         let registerElm;
         const registerObj = this.state.auth.register;
-       // console.log('register obj', registerObj);
+        // console.log('register obj', registerObj);
         for (const key in registerObj) {
             if (registerObj.hasOwnProperty(key)) {
                 registerElm = null;
                 let element = registerObj[key];
-               console.log('element',element);
                 registerElm = <FormsyElement
-                    key = {key + 1}
+                    key={key + 1}
                     name={element.elementConfig.name}
+                    type={element.elementConfig.type}
                     label={element.elementConfig.label}
                     validations={element.elementConfig.validations}
                     validationErrors={element.elementConfig.validationErrors}
@@ -155,6 +170,7 @@ class Auth extends Component {
         }
         return (
             <div>
+                <h1 style={{ 'textAlign': 'center', 'marginTop': '30px' }}>New User Registration Form</h1>
                 <Formsy
                     className='Register'
                     onValidSubmit={this.submit}
@@ -163,7 +179,16 @@ class Auth extends Component {
                     onInvalid={this.disableButton}
                     onInvalidSubmit={this.notifyFormError}>
                     {authForm}
+                    <div className="row">
+                        <div className="col-md-6 col-lg-6">
+                            <button className="btn btn-success" disabled={!this.state.canSubmit}>Submit</button>
+                        </div>
+                        <div className="col-md-6 col-lg-6">
+                            <button className="btn btn-danger" onClick={this.resetForm}>Cancel</button>
+                        </div>
+                    </div>
                 </Formsy>
+               
             </div>
         );
     }
