@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withFormsy } from 'formsy-react';
 // var DatePicker = require("react-16-bootstrap-date-picker");
-import DayPicker from 'react-day-picker';
+// import DayPicker from 'react-day-picker';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 class FormsyElement extends Component {

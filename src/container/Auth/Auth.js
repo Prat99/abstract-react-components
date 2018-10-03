@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import FormsyElement from '../FormsyElement/FormsyElement';
+import SweetAlert from 'sweetalert2-react';
 class Auth extends Component {
 
     constructor(props) {
@@ -47,8 +48,6 @@ class Auth extends Component {
                             name: 'email',
                             type: 'email',
                             label: 'Email',
-                            // validations: 'isEmail',
-                            // validationErrors: 'Email is not valid',
                             validations:{ isEmail: true, maxLength: 20 },
                             validationErrors : {
                                 isEmail: 'not a valid email',
@@ -71,7 +70,6 @@ class Auth extends Component {
                         elementConfig: {
                             name: 'gender',
                             label: '',
-                            // options: [{name: 'male', value: 'Male'}, {name: 'female', value: 'Female'}],
                             options: ['male', 'female'],
                             required: true,
                             selectedOptions: []
@@ -111,7 +109,9 @@ class Auth extends Component {
 
                 }
             },
-            canSubmit: false
+            canSubmit: false,
+            show: false,
+            model:''
         }
     }
 
@@ -127,13 +127,14 @@ class Auth extends Component {
         this.setState({ canSubmit: true });
     }
 
-    submit(model, reset, inv) {
+    submit = (model, reset, inv) => {
         // fetch('http://example.com/', {
         //   method: 'post',
         //   body: JSON.stringify(model)
         // });
         // console.log('reset', reset);
         // console.log('invalidate object', inv);
+        this.setState({ show:true });
         console.log('final submit', model);
         // reset();
     }
@@ -141,8 +142,7 @@ class Auth extends Component {
     resetForm = () => {
         console.log('reset form', this.refs.form);
         this.setState({ canSubmit: false })
-        this.refs.form.reset({ terms: false, gender: 'Male' });
-
+        this.refs.form.reset({ terms: false, gender: 'male' });
     }
     render() {
         let authForm = [];
@@ -171,6 +171,12 @@ class Auth extends Component {
         return (
             <div>
                 <h1 style={{ 'textAlign': 'center', 'marginTop': '30px' }}>New User Registration Form</h1>
+                <SweetAlert
+                    show={this.state.show}
+                    title="Demo"
+                    text="Final submit"
+                    onConfirm={() => this.setState({ show: false})}
+                />
                 <Formsy
                     className='Register'
                     onValidSubmit={this.submit}
@@ -188,7 +194,6 @@ class Auth extends Component {
                         </div>
                     </div>
                 </Formsy>
-               
             </div>
         );
     }
