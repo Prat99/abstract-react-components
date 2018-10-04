@@ -5,20 +5,20 @@ import Form from '../../components/Form/Form';
 
 const characters = [
   {
-      'name': 'Charlie',
-      'job': 'Janitor'
+    'name': 'Charlie',
+    'job': 'Janitor'
   },
   {
-      'name': 'Mac',
-      'job': 'Bouncer'
+    'name': 'Mac',
+    'job': 'Bouncer'
   },
   {
-      'name': 'Dee',
-      'job': 'Aspring actress'
+    'name': 'Dee',
+    'job': 'Aspring actress'
   },
   {
-      'name': 'Dennis',
-      'job': 'Bartender'
+    'name': 'Dennis',
+    'job': 'Bartender'
   }
 ];
 
@@ -33,14 +33,15 @@ export default class Employees extends Component {
   }
   // Check the input elements input value change
   inputChangeHandler = (e) => {
-    const {name, value} = e.target;
+    const { name, value } = e.target;
     this.setState({
-      [name] : value
+      [name]: value
     });
   }
-  
+
   formSubmitHandler = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     const characters = [...this.state.characters];
     const newObj = {
       name: this.state.name,
@@ -51,21 +52,21 @@ export default class Employees extends Component {
       characters: characters
     });
     this.setState({
-        name : '',
-        job : ''
+      name: '',
+      job: ''
     });
   }
 
   deleteCharacterHandler = (ch) => {
-   let characters = [...this.state.characters];
-   characters = characters.filter((character) => {
-           return character.name !== ch.name
-   });
-   this.setState( prevState => {
-     return {
-      characters : characters
-     }
-   });
+    let characters = [...this.state.characters];
+    characters = characters.filter((character) => {
+      return character.name !== ch.name
+    });
+    this.setState(prevState => {
+      return {
+        characters: characters
+      }
+    });
   }
 
   registerBtnHandler = () => {
@@ -77,16 +78,21 @@ export default class Employees extends Component {
   render() {
     return (
       <div className='Employees'>
-       
-        <Table characters={this.state.characters} delete = {this.deleteCharacterHandler}></Table>
-        <Form inputChange = {this.inputChangeHandler}
-               btnSubmit={this.formSubmitHandler}
-               name={this.state.name}
-               job={this.state.job}></Form>
-          <hr/>     
-          <button className="btn btn-primary" onClick={this.registerBtnHandler}>Register</button>   
-          <div className='col-md-4 col-lg-4'></div>  
-        <button className="btn btn-success" onClick={this.authBtnHandler}>Auth</button>     
+        <div className='row screens' >
+          <div className='col-md-3'>
+            <button className="btn btn-primary" onClick={this.registerBtnHandler}>Register</button>
+          </div>
+          <div className='col-md-3'>
+            <button className="btn btn-success" onClick={this.authBtnHandler}>Auth</button>
+          </div>
+          <div className='col-md-3'></div>
+          <div className='col-md-3'></div>
+        </div>
+        <Table characters={this.state.characters} delete={this.deleteCharacterHandler}></Table>
+        <Form inputChange={this.inputChangeHandler}
+          btnSubmit={this.formSubmitHandler}
+          name={this.state.name}
+          job={this.state.job}></Form>
       </div>
     )
   }

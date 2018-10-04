@@ -1,6 +1,10 @@
 .Employees {
     max-width: 600px;
     width:100%;
-    margin: 60px auto;
+    margin: 30px auto;
     box-sizing: border-box;
+}
+
+.screens {
+    margin-bottom: 20px;
 }

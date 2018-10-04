@@ -9,19 +9,21 @@ const Table = (props) => {
     </tr>
   })
   return (
-    <div className='columns'>
-      <table className='table is-fullwidth'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Job</th>
-          </tr>
-        </thead>
-        <tbody>
-          {rows}
-        </tbody>
-      </table>
-    </div>
+     <div className='row'>
+      <div className='col-md-12 col-lg-12'>
+        <table className='table table-striped'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Job</th>
+            </tr>
+          </thead>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
+      </div>
+     </div>
   );
 };
 

@@ -80,8 +80,8 @@ class FormsyElement extends Component {
                 />
                 break;
             case 'select':
-                domElement = <div className='form-control'>
-                    <select onChange={this.changeValue} value={this.props.getValue() || ''}>
+                domElement = <div>
+                    <select className='form-control' onChange={this.changeValue} value={this.props.getValue() || ''}>
                         <option>Select dropdown</option>
                         {this.props.options ? this.props.options.map((opt) => {
                             return (
@@ -116,10 +116,10 @@ class FormsyElement extends Component {
                                 <input 
                                     type="radio"
                                     name={this.props.name}
-                                    value = {opt}
+                                    value = {opt || this.props.getValue()}
                                     onChange={(opt) => this.changeValue(opt)}
                                     className='form-check-input'
-                                    // checked={this.props.selectedOptions.indexOf(opt) > -1}
+                                    checked={this.props.selectedOptions.indexOf(opt) > -1}
                                 />
                                 {opt}
                             </label>

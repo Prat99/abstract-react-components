@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Formsy from 'formsy-react';
 import FormsyElement from '../FormsyElement/FormsyElement';
 import SweetAlert from 'sweetalert2-react';
-class Auth extends Component {
-
+class AuthRegister extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,8 +14,11 @@ class Auth extends Component {
                             name: 'email',
                             type: 'text',
                             label: 'Email',
-                            validations: 'isEmail',
-                            validationError: 'Email is not valid',
+                            validations: { isEmail: true, maxLength: 20 },
+                            validationErrors: {
+                                isEmail: 'not a valid email',
+                                maxLength: 'max length is 20 words'
+                            },
                             required: true
                         }
                     },
@@ -37,8 +39,8 @@ class Auth extends Component {
                             name: 'name',
                             type: 'text',
                             label: 'Name',
-                            validations: {isWords: true},
-                            validationErrors: {isWords: 'Not a valid name'},
+                            validations: { isWords: true },
+                            validationErrors: { isWords: 'Not a valid name' },
                             required: true
                         }
                     },
@@ -48,8 +50,8 @@ class Auth extends Component {
                             name: 'email',
                             type: 'email',
                             label: 'Email',
-                            validations:{ isEmail: true, maxLength: 20 },
-                            validationErrors : {
+                            validations: { isEmail: true, maxLength: 20 },
+                            validationErrors: {
                                 isEmail: 'not a valid email',
                                 maxLength: 'max length is 20 words'
                             },
@@ -111,7 +113,7 @@ class Auth extends Component {
             },
             canSubmit: false,
             show: false,
-            model:''
+            scrRegister: false
         }
     }
 
@@ -134,7 +136,7 @@ class Auth extends Component {
         // });
         // console.log('reset', reset);
         // console.log('invalidate object', inv);
-        this.setState({ show:true });
+        this.setState({ show: true });
         console.log('final submit', model);
         // reset();
     }
@@ -144,11 +146,16 @@ class Auth extends Component {
         this.setState({ canSubmit: false })
         this.refs.form.reset({ terms: false, gender: 'male' });
     }
+
+    loginBtnHandler = () => {
+        this.setState({
+            scrRegister: !this.state.scrRegister
+        });
+    }
     render() {
         let authForm = [];
         let registerElm;
-        const registerObj = this.state.auth.register;
-        // console.log('register obj', registerObj);
+        const registerObj = this.state.scrRegister ? this.state.auth.register : this.state.auth.login;
         for (const key in registerObj) {
             if (registerObj.hasOwnProperty(key)) {
                 registerElm = null;
@@ -168,14 +175,16 @@ class Auth extends Component {
             }
             authForm.push(registerElm);
         }
+        const heading = this.state.scrRegister ? <h1 style={{ 'textAlign': 'center', 'marginTop': '30px' }}>New User Registration Form</h1> : <h1 style={{ 'textAlign': 'center', 'marginTop': '30px' }}>Login Form</h1>
+        const loginBtn = this.state.scrRegister ? <p>Already have account ? <a href='javascript:void(0)' onClick={this.loginBtnHandler}>Register</a></p> : <p>Already have account ? <a href='javascript:void(0)' onClick={this.loginBtnHandler}>Login</a></p>
         return (
             <div>
-                <h1 style={{ 'textAlign': 'center', 'marginTop': '30px' }}>New User Registration Form</h1>
+                {heading}
                 <SweetAlert
                     show={this.state.show}
                     title="Demo"
                     text="Final submit"
-                    onConfirm={() => this.setState({ show: false})}
+                    onConfirm={() => this.setState({ show: false })}
                 />
                 <Formsy
                     className='Register'
@@ -194,9 +203,10 @@ class Auth extends Component {
                         </div>
                     </div>
                 </Formsy>
+                {loginBtn}
             </div>
         );
     }
 }
 
-export default Auth;
+export default AuthRegister;
