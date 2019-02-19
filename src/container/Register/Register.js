@@ -45,12 +45,12 @@ export default class Register extends Component {
   }
 
   submit(model, reset, inv) {
-    // fetch('http://example.com/', {
-    //   method: 'post',
-    //   body: JSON.stringify(model)
-    // });
-    // console.log('reset', reset);
-    // console.log('invalidate object', inv);
+    fetch('http://example.com/', {
+      method: 'post',
+      body: JSON.stringify(model)
+    });
+    console.log('reset', reset);
+    console.log('invalidate object', inv);
     console.log('final submit', model);
     // reset();
   }
@@ -238,3 +238,4 @@ export default class Register extends Component {
     )
   }
 }
+``
