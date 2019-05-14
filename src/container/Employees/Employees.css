@@ -4,3 +4,8 @@
     margin: 60px auto;
     box-sizing: border-box;
 }
+
+.nav-btn {
+    font-size:30px;
+    cursor:pointer
+}

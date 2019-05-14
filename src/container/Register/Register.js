@@ -88,7 +88,6 @@ export default class Register extends Component {
     console.log('reset form', this.refs.form);
     this.setState({ isChecked: false })
     this.refs.form.reset({ terms: false, gender: 'Male' });
-
   }
 
   render() {
