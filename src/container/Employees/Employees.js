@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Table from "../../components/Table/Table";
 import "./Employees.css";
 import Form from "../../components/Form/Form";
-import Sidebar from "../../components/Sidebar/Sidebar";
 
 const CHARACTERS = [
   {
@@ -109,14 +108,14 @@ export default class Employees extends Component {
   render() {
     return (
       <div>
-        <Sidebar
+        {/* <Sidebar
           navState={this.state.openNav}
           closeNav={this.closeNavHandler}
           menu = {this.state.menu}
         />
         <span className="nav-btn" onClick={this.openNavHandler}>
           &#9776;
-        </span>
+        </span> */}
         <div className="Employees">
           <Table
             characters={this.state.characters}
@@ -129,16 +128,6 @@ export default class Employees extends Component {
             job={this.state.job}
           />
           <hr />
-          {/* <button
-            className="button is-primary"
-            onClick={this.registerBtnHandler}
-          >
-            Register
-          </button>
-          <div className="is-offset-4"> </div>
-          <button className="button is-success" onClick={this.authBtnHandler}>
-            Auth
-          </button> */}
         </div>
       </div>
     );

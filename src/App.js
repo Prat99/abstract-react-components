@@ -10,7 +10,6 @@ class App extends Component {
   render() {
     // Initialize all input of date type.
     const calendars = bulmaCalendar.attach('[type="date"]', {});
-
     // Loop on each calendar initialized
     calendars.forEach(calendar => {
       // Add listener to date:selected event
@@ -24,7 +23,7 @@ class App extends Component {
           <Switch>
             <Route path='/auth' exact component={Auth}></Route>
             <Route path='/register' exact component={Register}></Route>
-            <Route path='/' exact component={Employees}></Route>
+            <Route path='/' exact component={Employees}></Route>  
           </Switch>
         </Layout>
       </div>
